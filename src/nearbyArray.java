@@ -7,56 +7,32 @@ public class nearbyArray {
         { 321, 320, 32, 3, 41241, -11, -12, -13, -66, -688 }
     };
 
+    private static int[] createArray(int length, int start1, int end1, int start2, int end2, int[] array) {
+        int[] returnArray;
+        returnArray = new int[length];
+        int counter = 0;
+        for (int i=start1; i < end1; i++) {
+            returnArray[counter] = array[i];
+            counter += 1;
+        }
+        for (int i=start2; i < end2; i++) {
+            returnArray[counter] = array[i];
+            counter += 1;
+        }
+        return returnArray;
+    }
+
     public static int[] findNearbyInArray(int x, int y, int range) {
         int totalLengthOfArray = multi[x].length;
         int[] arrayToReturn;
         if (y-range >= 0 && y+range <= totalLengthOfArray) {
-            arrayToReturn = new int[range*2];
-
-            int counter = 0;
-            for (int i=y-range; i < y; i++) {
-                arrayToReturn[counter] = multi[x][i];
-                counter += 1;
-            }
-            for (int i=y+1; i < y+1+range; i++) {
-                arrayToReturn[counter] = multi[x][i];
-                counter += 1;
-            }
+            arrayToReturn = createArray(range*2, y-range, y, y+1, y+1+range, multi[x]);
         } else if (y-range < 0 && y+range <= totalLengthOfArray) {
-            arrayToReturn = new int[range + y];
-
-            int counter = 0;
-            for (int i=0; i < y; i++) {
-                arrayToReturn[counter] = multi[x][i];
-                counter += 1;
-            }
-            for (int i=y+1; i < y+1+range; i++) {
-                arrayToReturn[counter] = multi[x][i];
-                counter += 1;
-            }
+            arrayToReturn = createArray(range+y, 0, y, y+1, y+1+range, multi[x]);
         } else if (y-range >= 0 && y+range > totalLengthOfArray) {
-            arrayToReturn = new int[range + y];
-
-            int counter = 0;
-            for (int i=y-range; i < y; i++) {
-                arrayToReturn[counter] = multi[x][i];
-                counter += 1;
-            }
-            for (int i=y+1; i < totalLengthOfArray-y+1; i++) {
-                arrayToReturn[counter] = multi[x][i];
-                counter += 1;
-            }
+            arrayToReturn = createArray(range+y, y-range, y, y+1, totalLengthOfArray-y+1, multi[x]);
         } else {
-            arrayToReturn = new int[totalLengthOfArray-1];
-            int counter = 0;
-            for (int i=0; i < y; i++) {
-                arrayToReturn[counter] = multi[x][i];
-                counter += 1;
-            }
-            for (int i=y; i < totalLengthOfArray-1; i++) {
-                arrayToReturn[counter] = multi[x][i];
-                counter += 1;
-            }
+            arrayToReturn = createArray(totalLengthOfArray-1, 0, y, y, totalLengthOfArray-1, multi[x]);
         }
 
         return arrayToReturn;
@@ -64,10 +40,10 @@ public class nearbyArray {
     }
 
     public static void main(String[] args) {
-        int[] array1 = findNearbyInArray(0 ,2, 2);
+        /*int[] array1 = findNearbyInArray(0 ,2, 2);
         for (int i : array1) {
             System.out.println(i);
-        }
+        }*/
 
         System.out.println(Arrays.toString(findNearbyInArray(0 ,2, 2)));
         System.out.println(Arrays.toString(findNearbyInArray(1 ,0, 1)));
